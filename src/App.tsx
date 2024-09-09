@@ -24,6 +24,27 @@ const App = (): JSX.Element => {
 
   const handleRollDice = () => {
     let randomNum = Math.floor(Math.random() * 6) + 1;
+
+    switch (randomNum) {
+      case 1:
+        setDiceImage(DiceOne);
+        break;
+      case 2:
+        setDiceImage(DiceTwo);
+        break;
+      case 3:
+        setDiceImage(DiceThree);
+        break;
+      case 4:
+        setDiceImage(DiceFour);
+        break;
+      case 5:
+        setDiceImage(DiceFive);
+        break;
+      case 6:
+        setDiceImage(DiceSix);
+        break;
+    }
   };
 
   return (
