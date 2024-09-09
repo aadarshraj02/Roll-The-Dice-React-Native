@@ -1,4 +1,11 @@
-import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ImageSourcePropType,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {PropsWithChildren, useState} from 'react';
 import DiceOne from '../public/dices/dice_1.png';
 import DiceTwo from '../public/dices/dice_2.png';
@@ -15,6 +22,9 @@ const Dice = ({imageUrl}: DiceProps): JSX.Element => {
   return (
     <View>
       <Image style={styles.diceImage} source={imageUrl} />
+      <Pressable>
+        <Text style={styles.rollDiceBtnText}>Roll The Dice</Text>
+      </Pressable>
     </View>
   );
 };
