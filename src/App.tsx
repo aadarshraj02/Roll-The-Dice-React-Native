@@ -1,5 +1,5 @@
 import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
-import React, {PropsWithChildren} from 'react';
+import React, {PropsWithChildren, useState} from 'react';
 import DiceOne from '../public/dices/dice_1.png';
 import DiceTwo from '../public/dices/dice_2.png';
 import DiceThree from '../public/dices/dice_3.png';
@@ -20,9 +20,11 @@ const Dice = ({imageUrl}: DiceProps): JSX.Element => {
 };
 
 const App = (): JSX.Element => {
+  const [diceImage, setDiceImage] = useState<ImageSourcePropType>(DiceOne);
+
   return (
-    <View>
-      <Text>App</Text>
+    <View style={styles.container}>
+      <Dice imageUrl={diceImage} />
     </View>
   );
 };
