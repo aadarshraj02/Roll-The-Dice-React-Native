@@ -44,6 +44,9 @@ const App = (): JSX.Element => {
       case 6:
         setDiceImage(DiceSix);
         break;
+      default:
+        setDiceImage(DiceOne);
+        break;
     }
   };
 
