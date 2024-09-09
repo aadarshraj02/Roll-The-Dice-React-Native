@@ -13,11 +13,17 @@ import DiceThree from '../public/dices/dice_3.png';
 import DiceFour from '../public/dices/dice_4.png';
 import DiceFive from '../public/dices/dice_5.png';
 import DiceSix from '../public/dices/dice_6.png';
+import RNReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 type DiceProps = PropsWithChildren<{
   imageUrl: ImageSourcePropType;
   animatedStyle: any;
 }>;
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
 
 const Dice = ({imageUrl, animatedStyle}: DiceProps): JSX.Element => {
   return (
@@ -70,6 +76,8 @@ const App = (): JSX.Element => {
           break;
       }
     });
+
+    RNReactNativeHapticFeedback.trigger('impactLight', options);
   };
 
   const rotate = rotateAnimation.interpolate({
