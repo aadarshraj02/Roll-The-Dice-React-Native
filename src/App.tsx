@@ -1,12 +1,12 @@
 import {
-  Image,
+  Animated,
   ImageSourcePropType,
   Pressable,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import React, {PropsWithChildren, useState} from 'react';
+import React, {PropsWithChildren, useRef, useState} from 'react';
 import DiceOne from '../public/dices/dice_1.png';
 import DiceTwo from '../public/dices/dice_2.png';
 import DiceThree from '../public/dices/dice_3.png';
@@ -16,50 +16,74 @@ import DiceSix from '../public/dices/dice_6.png';
 
 type DiceProps = PropsWithChildren<{
   imageUrl: ImageSourcePropType;
+  animatedStyle: any;
 }>;
 
-const Dice = ({imageUrl}: DiceProps): JSX.Element => {
+const Dice = ({imageUrl, animatedStyle}: DiceProps): JSX.Element => {
   return (
-    <View>
-      <Image style={styles.diceImage} source={imageUrl} />
-    </View>
+    <Animated.View style={animatedStyle}>
+      <Animated.Image style={styles.diceImage} source={imageUrl} />
+    </Animated.View>
   );
 };
 
 const App = (): JSX.Element => {
   const [diceImage, setDiceImage] = useState<ImageSourcePropType>(DiceOne);
+  const rotateAnimation = useRef(new Animated.Value(0)).current;
 
   const handleRollDice = () => {
     let randomNum = Math.floor(Math.random() * 6) + 1;
 
-    switch (randomNum) {
-      case 1:
-        setDiceImage(DiceOne);
-        break;
-      case 2:
-        setDiceImage(DiceTwo);
-        break;
-      case 3:
-        setDiceImage(DiceThree);
-        break;
-      case 4:
-        setDiceImage(DiceFour);
-        break;
-      case 5:
-        setDiceImage(DiceFive);
-        break;
-      case 6:
-        setDiceImage(DiceSix);
-        break;
-      default:
-        setDiceImage(DiceOne);
-        break;
-    }
+    Animated.sequence([
+      Animated.timing(rotateAnimation, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(rotateAnimation, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      switch (randomNum) {
+        case 1:
+          setDiceImage(DiceOne);
+          break;
+        case 2:
+          setDiceImage(DiceTwo);
+          break;
+        case 3:
+          setDiceImage(DiceThree);
+          break;
+        case 4:
+          setDiceImage(DiceFour);
+          break;
+        case 5:
+          setDiceImage(DiceFive);
+          break;
+        case 6:
+          setDiceImage(DiceSix);
+          break;
+        default:
+          setDiceImage(DiceOne);
+          break;
+      }
+    });
+  };
+
+  const rotate = rotateAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
+  const animatedStyle = {
+    transform: [{rotate}],
   };
 
   return (
     <View style={styles.container}>
-      <Dice imageUrl={diceImage} />
+      <Dice imageUrl={diceImage} animatedStyle={animatedStyle} />
       <Pressable onPress={handleRollDice}>
         <Text style={styles.rollDiceBtnText}>Roll The Dice</Text>
       </Pressable>
@@ -76,14 +100,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFF2F2',
   },
-  diceContainer: {
-    margin: 12,
-  },
   diceImage: {
     width: 200,
     height: 200,
   },
   rollDiceBtnText: {
+    marginTop: 20,
     paddingVertical: 10,
     paddingHorizontal: 40,
     borderWidth: 2,
