@@ -22,9 +22,6 @@ const Dice = ({imageUrl}: DiceProps): JSX.Element => {
   return (
     <View>
       <Image style={styles.diceImage} source={imageUrl} />
-      <Pressable>
-        <Text style={styles.rollDiceBtnText}>Roll The Dice</Text>
-      </Pressable>
     </View>
   );
 };
@@ -63,6 +60,9 @@ const App = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <Dice imageUrl={diceImage} />
+      <Pressable onPress={handleRollDice}>
+        <Text style={styles.rollDiceBtnText}>Roll The Dice</Text>
+      </Pressable>
     </View>
   );
 };
